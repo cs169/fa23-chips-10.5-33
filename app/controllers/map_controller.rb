@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+require 'google/apis/civicinfo_v2'
 
 class MapController < ApplicationController
   # Render the map of the United States.
