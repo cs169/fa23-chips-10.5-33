@@ -16,9 +16,10 @@
                 .card-header#actionmap-reps-details-header
                     %h3.text-center
                         %button.btn.btn-link.collapsed{ 'data-toggle': 'collapse',
-                        'data-target': '#actionmap-counties-details-collapse', 'aria-expanded': false,
-                        'aria-controls': 'actionmap-counties-details-collapse' }
-                        Representatives in #{@county.name}, #{@state.name}
+                                    'data-target': '#actionmap-counties-details-collapse',
+                                    'aria-expanded': false,
+                                    'aria-controls': 'actionmap-counties-details-collapse' } |
+                            Representatives in #{@county.name}, #{@state.name}
                 .collapse#actionmap-counties-details-collapse{ 'data-parent': '#actionmap-reps-details-header',
                 'aria-labelledby': '#actionmap-reps-details-header' }
                     .card-body
