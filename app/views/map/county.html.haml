@@ -17,7 +17,7 @@
                     %h3.text-center
                         %button.btn.btn-link.collapsed{ 'data-toggle': 'collapse',
                         'data-target': '#actionmap-counties-details-collapse', 'aria-expanded': false,
-                        'aria-controls': 'actionmap-counties-details-collapse' } 
+                        'aria-controls': 'actionmap-counties-details-collapse' }
                         Representatives in #{@county.name}, #{@state.name}
                 .collapse#actionmap-counties-details-collapse{ 'data-parent': '#actionmap-reps-details-header',
                 'aria-labelledby': '#actionmap-reps-details-header' }
@@ -36,7 +36,7 @@
                                             %td= rep.name
                                             %td= rep.title
                                             %td
-                                                = link_to representative_news_items_path(rep.id), 
+                                                = link_to representative_news_items_path(rep.id),
                                                 class: 'btn btn-primary' do
                                                     %i.fas.fa-newspaper
                                                     News Articles
