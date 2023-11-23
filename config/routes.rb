@@ -13,7 +13,6 @@ Rails.application.routes.draw do
     root to: 'map#index', as: 'root'
     get '/state/:state_symbol' => 'map#state', :as => :state_map
     get '/state/:state_symbol/county/:std_fips_code' => 'map#county', :as => :county
-
     get '/ajax/state/:state_symbol' => 'ajax#counties'
 
     # Routes for Events
