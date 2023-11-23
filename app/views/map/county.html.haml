@@ -11,35 +11,33 @@
 
 .row
     .col-12.col-lg-8.offset-lg-2
-        #actionmap-county-details
+        #actionmap-county-reps-details
             .card
                 .card-header#actionmap-reps-details-header
                     %h3.text-center
                         %button.btn.btn-link.collapsed{ 'data-toggle': 'collapse',
                         'data-target': '#actionmap-counties-details-collapse', 'aria-expanded': false,
                         'aria-controls': 'actionmap-counties-details-collapse' } Representatives in #{@county.name}, #{@state.name}
-                .collapse#actionmap-county-details-collapse{ 'data-parent': '#actionmap-reps-details-header',
+                .collapse#actionmap-counties-details-collapse{ 'data-parent': '#actionmap-reps-details-header',
                 'aria-labelledby': '#actionmap-reps-details-header' }
                     .card-body
                         .table-responsive-md
-                            %table.table.table-striped.table-hover#actionmap-state-reps-table
+                            %table.table.table-striped.table-hover#actionmap-county-reps-table
                                 %caption Table of Representatives in #{@county.name}, #{@state.name}
                                 %thead.thead-dark
                                     %tr
-                                        %th #
                                         %th Name
-                                        %th FIPS Code
-                                        %th View
+                                        %th Office
+                                        %th Links
                                 %tbody
-                                    - @state.counties.each_with_index do |county, index|
+                                    - @representatives.each_with_index do |rep, _index|
                                         %tr
-                                            %td= index + 1
-                                            %td= county.name
-                                            %td= county.std_fips_code
+                                            %td= rep.name
+                                            %td= rep.title
                                             %td
-                                                = link_to 'View', county_path(state_symbol: @state.symbol,
-                                                std_fips_code: county.std_fips_code),
-                                                class: 'btn btn-primary'
+                                                = link_to representative_news_items_path(rep.id), class: 'btn btn-primary' do
+                                                    %i.fas.fa-newspaper
+                                                    News Articles
 #actionmap-info-box
 .d-none#actionmap-info-container{ 'data-counties': @county_details.to_json, 'data-state': @state.to_json,
 'data-state-topojson-file': asset_path("states/#{@state[:symbol].downcase}.topo.json"),

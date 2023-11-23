@@ -12,8 +12,7 @@ Rails.application.routes.draw do
 
     root to: 'map#index', as: 'root'
     get '/state/:state_symbol' => 'map#state', :as => :state_map
-    get '/state/:state_symbol/county/:std_fips_code' => 'search#search', :as => 'search_representatives'
-
+    get '/state/:state_symbol/county/:std_fips_code' => 'map#county', :as => :county
     get '/ajax/state/:state_symbol' => 'ajax#counties'
 
     # Routes for Events
@@ -39,5 +38,5 @@ Rails.application.routes.draw do
         match '/representatives/:representative_id/my_news_item/:id', to:  'my_news_items#destroy',
                                                                       via: [:delete]
     end
-    # get '/search/(:address)' => 'search#search', :as => 'search_representatives'
+    get '/search/(:address)' => 'search#search', :as => 'search_representatives'
 end
