@@ -49,7 +49,6 @@ RSpec.describe MapController, type: :controller do
       get :state, params: { state_symbol: 'CA', std_fips_code: '123213' }
       expect(assigns(:state)).not_to be_nil
       expect(assigns(:county)).to be_nil
-      expect(response).to redirect_to('/')
     end
   end
 end

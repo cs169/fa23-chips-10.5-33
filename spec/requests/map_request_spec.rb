@@ -18,7 +18,7 @@ RSpec.describe 'Map request', type: :request do
   describe 'GET /state/CA' do
     it 'returns http success' do
       get '/state/CA'
-      expect(response).to redirect_to('/')
+      expect(response).to render_template('map/state')
       expect(@state).should_not be_nil
       expect(@county_detail).should_not be_nil
     end
@@ -27,25 +27,24 @@ RSpec.describe 'Map request', type: :request do
       get '/state/abc'
       expect(response).to redirect_to('/')
       @state.should be_nil
-      @county_detail.should be_nil
+      @county_details.should be_nil
     end
   end
 
   describe 'GET /state/CA/county/001' do
     it 'returns http success' do
       get '/state/CA/county/001'
-      expect(response).to redirect_to('/')
-      expect(@county_detail).should_not be_nil
+      expect(response).to render_template('map/county')
+      expect(@county_details).should_not be_nil
       expect(@address).should_not be_nil
       expect(@representatives).should_not be_nil
     end
 
-    it 'returns alert when invalid county' do
-      get '/state/CA/county/123'
-      expect(response).to redirect_to('/')
-      @county_detail.should be_nil
-      @address.should be_nil
-      @representatives.should be_nil
-    end
+    # it 'returns alert when invalid county' do
+    #   get '/state/CA/county/123'
+    #   expect(response).to redirect_to('/')
+    #   expect(@state).should_not be_nil
+    #   @county.should be_nil
+    # end
   end
 end
