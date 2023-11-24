@@ -50,6 +50,6 @@ class MapController < ApplicationController
     County.find_by(
       state:     state_id,
       fips_code: params[:std_fips_code].to_i(10)
-    )
+  )
   end
 end
