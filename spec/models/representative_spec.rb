@@ -1,32 +1,32 @@
-
 require 'rails_helper'
-
-#Write characterization tests:
-# api returns no officials, return empty arr
-# api returns official already in database, should not create duplicate official
-# api returns new officials, creates officials in database
 
 RSpec.describe Representative, type: :model do
   describe '.civic_api_to_representative_params' do
+    before do
+      office_info = [Office.new('Berkeley', 'ocd-division/country:us/state:ca', [0])]
+      official_info = [Official.new('Brandon')]
+      @rep1_info = RepInfo.new(office_info, official_info)
+      Representative.civic_api_to_representative_params(@rep1_info)
+    end
 
-    #before all create rep for testing
-
-    context 'when API returns rep already in database' do
-      it 'does not create new rep' do
-        
-        # create another double rep already in databse ?
-
-        #call method & expect no new rep to be created
-        expect {Representative.civic_api_to_representative_params(#name of the created rep)}.not_to change(Representative, :count)
+    context 'when API returns rep already in the database' do
+      it 'does not create a new rep' do
+        # call method & expect no new rep to be created
+        expect (Representative.civic_api_to_representative_params(@rep1_info)).not_to change(Representative, :count)
       end
     end
 
-    context 'when API returns new rep' do
-      it 'creates a new rep in database' do 
-        expect {Representative.civic_api_to_representative_params(#name of created rep)}.to change(Representative, :count).by(1)
+    context 'when API returns a new rep' do
+      it 'creates a new rep in the database' do 
+        office_info = [Office.new('Berkeley', 'ocd-division/country:us/state:ca', [0])]
+        official_info = [Official.new('Anusha')]
+        rep2_info = RepInfo.new(office_info, official_info)
+        
+        expect (Representative.civic_api_to_representative_params(rep2_info)).to change(Representative, :count).by(1)
       end
     end
   end
 end
 
 
+end
