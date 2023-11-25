@@ -17,11 +17,27 @@ class Representative < ApplicationRecord
         end
       end
 
-      rep = Representative.create!({ name: official.name, ocdid: ocdid_temp,
-          title: title_temp })
+      rep = create_representative(official, offfice_data)
       reps.push(rep)
     end
 
-    reps
+    return reps
   end
+
+  def create_representative(official, office_title, ocdid)
+    data = self.representative_data(official, office_title, ocdid)
+    return Representative.create!(data)
+  end
+
+  def self.representative_data(official, office_title, ocdid)
+    return {
+    name: official.name || ''
+    title: office_title || 'No office provided'
+    ocdid: ocdid || 'No ocdid'
+    address: official.address || 'No address provided'
+    party: official.party || 'No Affiliation'
+    photo: 'photo_url' || 'No photo provided'
+    }
+  end
+
 end
