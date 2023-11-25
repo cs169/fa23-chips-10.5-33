@@ -3,6 +3,11 @@
 class Representative < ApplicationRecord
   has_many :news_items, dependent: :delete_all
 
+  def self.create_representative(official, office_title, ocdid)
+    data = self.representative_data(official, office_title, ocdid)
+    Representative.find_or_create_by(data)
+  end
+
   def self.civic_api_to_representative_params(rep_info)
     reps = []
 
@@ -17,17 +22,39 @@ class Representative < ApplicationRecord
         end
       end
 
-      # rep = Representative.create!({ name: official.name, ocdid: ocdid_temp,
-      #     title: title_temp })
-      # reps.push(rep)
-
-      # rep = Representative.find_or_initialize_by(name: official.name, ocdid: ocdid_temp, title: title_temp)
-      rep = Representative.find_or_initialize_by(name: official.name, ocdid: ocdid_temp, title: title_temp)
-      # rep.assign_attributes(name: official.name, title: title_temp)
-      rep.save
+      rep = create_representative(official, title_temp, ocdid_temp)
       reps.push(rep)
     end
 
-    reps
+    return reps
   end
+
+  def self.representative_data(official, office_title, ocdid)
+    if official.address
+      {
+      name: official.name || '',
+      title: office_title,
+      ocdid: ocdid,
+      street: "#{official.address[0].line1}",
+      city: "#{official.address[0].city}",
+      state: "#{official.address[0].state}",
+      zip: "#{official.address[0].zip}",
+      party: official.party,
+      photo_url: official.photo_url
+      }
+    else
+      {
+      name: official.name || '',
+      title: office_title,
+      ocdid: ocdid,
+      street: "",
+      city: "",
+      state: "",
+      zip: "",
+      party: official.party,
+      photo_url: official.photo_url
+      }
+    end
+  end
+
 end
