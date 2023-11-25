@@ -1,6 +1,29 @@
 # frozen_string_literal: true
 
 Rails.application.configure do
+  OmniAuth.config.test_mode = true
+  OmniAuth.config.mock_auth[:google_oauth2] = {
+    'provider' => 'google_oauth2',
+    'uid'      => '12345',
+    'info'     =>
+                  { 'email'      => 'gootestemail@test.com',
+                    'first_name' => 'gooTestFirstName',
+                    'last_name'  => 'gooTestLastName' }
+  }
+  OmniAuth.config.mock_auth[:github] = {
+    'provider' => 'github',
+    'uid'      => '123',
+    'info'     =>
+                  { 'email'      => 'gittestemail@test.com',
+                    'name' => 'gitTestFirstName' }
+  }
+  OmniAuth.config.mock_auth[:githubNilName] = {
+    'provider' => 'github',
+    'uid'      => '123',
+    'info'     =>
+                  { 'email'      => 'gittestemail@test.com',
+                    'name' => nil }
+  }
   # Settings specified here will take precedence over those in config/application.rb.
 
   # The test environment is used exclusively to run your application's

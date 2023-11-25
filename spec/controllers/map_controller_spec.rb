@@ -70,11 +70,11 @@ RSpec.describe MapController, type: :controller do
       end
     end
 
-    # it 'get invalid county, return nil' do
-    #   allow(controller).to receive(:state).and_call_original
-    #   get :state, params: { state_symbol: 'CA', std_fips_code: '123213' }
-    #   expect(assigns(:state)).not_to be_nil
-    #   expect(assigns(:county)).to be_nil
-    # end
+    it 'get invalid county, return nil' do
+      allow(controller).to receive(:state).and_call_original
+      get :state, params: { state_symbol: 'CA', std_fips_code: '123213' }
+      expect(assigns(:state)).not_to be_nil
+      expect(assigns(:county)).to be_nil
+    end
   end
 end
