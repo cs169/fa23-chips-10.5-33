@@ -5,6 +5,14 @@ class RepresentativesController < ApplicationController
     @representatives = Representative.all
   end
 
-  def show; end
+  def show 
+    @representative =  Representative.find_by(id: params[:id])
+    if @representative == nil
+      flash[:alert] = "There is no such Representative"
+      redirect_to representatives_path
+    else
+      render :show
+    end
+  end
 
 end

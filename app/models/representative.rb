@@ -30,17 +30,31 @@ class Representative < ApplicationRecord
   end
 
   def self.representative_data(official, office_title, ocdid)
-    {
-    name: official.name || '',
-    title: office_title,
-    ocdid: ocdid,
-    street: 'yay',
-    city: 'yay',
-    state: 'yay',
-    zip: 'yay',
-    party: official.party || 'No Affiliation',
-    photo: official.photo_url || 'No photo provided'
-    }
+    if official.address
+      {
+      name: official.name || '',
+      title: office_title,
+      ocdid: ocdid,
+      street: "#{official.address[0].line1}",
+      city: "#{official.address[0].city}",
+      state: "#{official.address[0].state}",
+      zip: "#{official.address[0].zip}",
+      party: official.party,
+      photo_url: official.photo_url
+      }
+    else
+      {
+      name: official.name || '',
+      title: office_title,
+      ocdid: ocdid,
+      street: "",
+      city: "",
+      state: "",
+      zip: "",
+      party: official.party,
+      photo_url: official.photo_url
+      }
+    end
   end
 
 end

@@ -1,7 +1,7 @@
 .row.mt-2
     .col-12.col-md-6.offset-md-3.col-xl-4.offset-xl-4
         %h3.text-center= @representative.name
-        %img(src= @representative.image)
+        %img{:src => @representative.photo_url}
         .card-body
             .card-text
                 %dl.row
@@ -12,7 +12,7 @@
                 %dl.row
                     %dt.col-sm-3.text-md-right Office:
                     %dt.col-sm-9
-                        = @representative.office
+                        = @representative.title
                 %dl.row
                     %dt.col-sm-3.text-md-right Party:
                     %dt.col-sm-9
@@ -20,4 +20,4 @@
                 %dl.row
                     %dt.col-sm-3.text-md-right Contact Address:
                     %dt.col-sm-9
-                        = @representative.zip
+                        = @representative.street + " " + @representative.city + ", " + @representative.state + "    " + @representative.zip
