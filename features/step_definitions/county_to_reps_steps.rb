@@ -11,7 +11,3 @@ end
 Then(/^show me the page content$/) do
   puts page.body
 end
-
-# Then(/^I should see "([^"]*)"$/) do |content|
-#   expect(page).to have_content(content)
-# end
