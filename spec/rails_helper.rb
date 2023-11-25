@@ -3,7 +3,9 @@
 # See: https://github.com/codecov/example-ruby
 
 require 'simplecov'
-SimpleCov.start 'rails'
+SimpleCov.start 'rails' do
+  add_filter 'lib'
+end
 
 if ENV['CI']
   require 'codecov'
@@ -45,6 +47,7 @@ end
 RSpec.configure do |config|
   config.before(:suite) do
     DatabaseCleaner.clean_with(:truncation)
+    Rails.application.load_seed
   end
   config.before do
     DatabaseCleaner.strategy = :transaction
