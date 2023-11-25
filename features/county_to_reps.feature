@@ -3,7 +3,7 @@ Feature: County to Representatives
   Scenario: Trying to see my representatives by clicking on my county
     Given I am on the state map page with state symbol "CA"
     When I click on a county with state symbol "CA" and fips code 085
-    Then I should see "Jeffrey F. Rosen"
+    Then I should see "Test Official"
     Then I should not see "John Thune"
   
   Scenario: Visiting an invalid state
