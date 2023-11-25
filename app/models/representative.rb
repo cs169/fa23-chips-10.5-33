@@ -21,8 +21,6 @@ class Representative < ApplicationRecord
           ocdid_temp = office.division_id
         end
       end
-
-      rep = create_representative(official, title_temp, ocdid_temp)
       reps.push(rep)
     end
 
