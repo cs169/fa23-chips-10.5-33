@@ -20,6 +20,7 @@ AllCops:
     Exclude:
         - bin/*
         - config/routes.rb
+        - config/environments/test.rb
         - db/schema.rb
         - db/seed_data.rb
         - db/seeds.rb
