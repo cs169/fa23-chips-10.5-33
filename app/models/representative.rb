@@ -26,9 +26,6 @@ class Representative < ApplicationRecord
       # rep.assign_attributes(name: official.name, title: title_temp)
       rep.save
       reps.push(rep)
-
-
-
     end
 
     reps
