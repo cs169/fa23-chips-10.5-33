@@ -33,21 +33,20 @@ class Representative < ApplicationRecord
     if official.address
       {
         name:      official.name || '',
-        title:     office_title, ocdid:     ocdid,
+        title:     office_title, ocdid: ocdid,
         street:    official.address[0].line1.to_s,
         city:      official.address[0].city.to_s,
         state:     official.address[0].state.to_s,
         zip:       official.address[0].zip.to_s,
-        party:     official.party,
-        photo_url: official.photo_url
+        party:     official.party, photo_url: official.photo_url
       }
     else
       {
         name:      official.name || '',
-        title:     office_title, ocdid:     ocdid,
-        street:    '', city:      '', state:     '', zip:       '',
-        party:     official.party,
-        photo_url: official.photo_url
+        title:     office_title, ocdid: ocdid,
+        street:    'No Address Provided', city: '',
+        state:     '', zip: '',
+        party:     official.party, photo_url: official.photo_url
       }
     end
   end
