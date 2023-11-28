@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# frozen_string_literal: true
+
 class NewsItemsController < ApplicationController
   before_action :set_representative
   before_action :set_news_item, only: %i[show]
