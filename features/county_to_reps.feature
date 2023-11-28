@@ -13,7 +13,7 @@ Feature: County to Representatives
     Then I should not see "Joseph R. Biden"
     Then I should not see "Counties in"
 
-  Scenario: Visiting an invalid county
+  Scenario: Visiting an invalid county fips
     Given I am on the state map page with state symbol "CA"
     When I click on a county with state symbol "CA" and fips code 1234
     Then I should see "County with code '1234' not found for CA"
