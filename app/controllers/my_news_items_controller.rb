@@ -13,20 +13,11 @@ class MyNewsItemsController < SessionController
   def edit; end
 
   def create
-    Rails.logger.info(news_item_params)
     @news_item = NewsItem.new(news_item_params)
-    Rails.logger.info(@news_item)
-    Rails.logger.info(@news_item.issue)
-    Rails.logger.info(@news_item.link)
-    Rails.logger.info(@news_item.description)
-    Rails.logger.info("HERE3")
     if @news_item.save
-      Rails.logger.info("HERE4")
       redirect_to representative_news_item_path(@representative, @news_item),
                   notice: 'News item was successfully created.'
-      Rails.logger.info("HERE5")
     else
-      Rails.logger.info("HERE6")
       render :new, error: 'An error occurred when creating the news item.'
     end
   end
