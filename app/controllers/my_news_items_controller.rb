@@ -3,6 +3,7 @@
 class MyNewsItemsController < SessionController
   before_action :set_representative
   before_action :set_representatives_list
+  before_action :set_issues_list
   before_action :set_news_item, only: %i[edit update destroy]
 
   def new
@@ -12,11 +13,20 @@ class MyNewsItemsController < SessionController
   def edit; end
 
   def create
+    Rails.logger.info(news_item_params)
     @news_item = NewsItem.new(news_item_params)
+    Rails.logger.info(@news_item)
+    Rails.logger.info(@news_item.issue)
+    Rails.logger.info(@news_item.link)
+    Rails.logger.info(@news_item.description)
+    Rails.logger.info("HERE3")
     if @news_item.save
+      Rails.logger.info("HERE4")
       redirect_to representative_news_item_path(@representative, @news_item),
                   notice: 'News item was successfully created.'
+      Rails.logger.info("HERE5")
     else
+      Rails.logger.info("HERE6")
       render :new, error: 'An error occurred when creating the news item.'
     end
   end
@@ -52,8 +62,16 @@ class MyNewsItemsController < SessionController
     @news_item = NewsItem.find(params[:id])
   end
 
+  def set_issues_list
+    @issues_list = ["Free Speech", "Immigration", "Terrorism", "Social Security and
+    Medicare", "Abortion", "Student Loans", "Gun Control", "Unemployment",
+    "Climate Change", "Homelessness", "Racism", "Tax Reform", "Net
+    Neutrality", "Religious Freedom", "Border Security", "Minimum Wage",
+    "Equal Pay"]
+  end
+
   # Only allow a list of trusted parameters through.
   def news_item_params
-    params.require(:news_item).permit(:news, :title, :description, :link, :representative_id)
+    params.require(:news_item).permit(:news, :title, :description, :link, :representative_id, :issue)
   end
 end

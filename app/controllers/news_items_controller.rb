@@ -6,6 +6,11 @@ class NewsItemsController < ApplicationController
 
   def index
     @news_items = @representative.news_items
+    Rails.logger.info(@news_items)
+    Rails.logger.info(@representative)
+    Rails.logger.info(@news_items)
+    Rails.logger.info(params[:id])
+    Rails.logger.info(params[:representative_id])
   end
 
   def show; end
