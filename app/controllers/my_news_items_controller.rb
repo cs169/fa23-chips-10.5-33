@@ -129,8 +129,7 @@ class MyNewsItemsController < SessionController
         representative: @representative
       }
     )
-    new_rating = Rating.new(user: current_user, news_item: news_item)
-    new_rating.value = params[:ratings][:rating]
+    new_rating = Rating.new(user: @user, news_item: @news_item, value: params[:ratings][:rating])
     #@news_item.add_rating(params[:ratings][:rating])
 
     #@news_item.ratings.new(params[:ratings][:rating])
