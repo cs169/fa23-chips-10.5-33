@@ -7,15 +7,15 @@ class MyNewsItemsController < SessionController
   before_action :set_news_item, only: %i[edit update destroy]
 
   def new
-    Rails.logger.info("in new")
+    Rails.logger.info('in new')
     @news_item = NewsItem.new
-    Rails.logger.info("in new, after making news item")
+    Rails.logger.info('in new, after making news item')
   end
 
   def edit; end
 
   def create
-    Rails.logger.info("in create")
+    Rails.logger.info('in create')
     @news_item = NewsItem.new(news_item_params)
     if @news_item.save
       redirect_to representative_news_item_path(@representative, @news_item),
@@ -44,7 +44,7 @@ class MyNewsItemsController < SessionController
   #   if params[:news_item][:representative_id].present? && params[:news_item][:issue].present?
   #     session[:selected_representative_id] = params[:news_item][:representative_id]
   #     session[:selected_issue] = params[:news_item][:issue]
-  
+
   #     redirect_to new_rep_issue_my_news_item_path
   #   else
   #     render 'select_rep_and_issue'
@@ -71,43 +71,42 @@ class MyNewsItemsController < SessionController
   # end
 
   def search
-    Rails.logger.info("in search")
+    Rails.logger.info('in search')
     Rails.logger.info(params)
     Rails.logger.info(params[:news_item])
     Rails.logger.info(@representative)
     Rails.logger.info(@issues_list)
     @news_item = NewsItem.new(news_item_params)
-    if params[:news_item].present? and params[:news_item][:representative_id].present? and
+    if params[:news_item].present? && params[:news_item][:representative_id].present? &&
        params[:news_item][:issue].present?
       session[:selected_representative_id] = params[:news_item][:representative_id]
       session[:selected_issue] = params[:news_item][:issue]
-      Rails.logger.info("in search if statement, about to redirect")
+      Rails.logger.info('in search if statement, about to redirect')
 
       redirect_to representative_top_articles_path(
         @representative,
         representative_id: session[:selected_representative_id],
-        issue: session[:selected_issue]
+        issue:             session[:selected_issue]
       )
     else
       render :new, error: 'An error occurred when creating the news item.'
     end
   end
 
-
   def top_articles
-    Rails.logger.info("in top articles")
+    Rails.logger.info('in top articles')
     @selected_representative = @representative
     @selected_issue = params[:issue]
     session[:selected_rep] = @selected_representative
     session[:selected_issue] = @selected_issue
     @rating_list = [1, 2, 3, 4, 5]
-    newsapi = News.new(Rails.application.credentials[:NEWS_API_KEY])             
+    newsapi = News.new(Rails.application.credentials[:NEWS_API_KEY])
 
-    @top_articles = newsapi.get_everything(q: "#{@selected_representative.name} AND #{@selected_issue}",
-                                          language: 'en',
-                                          sortBy: 'relevancy',
-                                          page: 1,
-                                          pagesize: 5)
+    @top_articles = newsapi.get_everything(q:        "#{@selected_representative.name} AND #{@selected_issue}",
+                                           language: 'en',
+                                           sortBy:   'relevancy',
+                                           page:     1,
+                                           pagesize: 5)
     Rails.logger.info(@top_articles)
     @top_articles.each do |article|
       Rails.logger.info(article)
@@ -117,23 +116,23 @@ class MyNewsItemsController < SessionController
   end
 
   def rate_article
-    Rails.logger.info("in rate article (new!)")
+    Rails.logger.info('in rate article (new!)')
     Rails.logger.info(session[:selected_rep])
     Rails.logger.info(session[:selected_issue])
     Rails.logger.info(@representative)
     @news_item = NewsItem.new(
-      #representative_id: params[:representative_id],
-      title: params[:selected_article][:title],
-      link: params[:selected_article][:url],
-      description: params[:selected_article][:description],
-      rating: params[:ratings][:rating],
-      issue: session[:selected_issue],
-      representative: @representative 
+      # representative_id: params[:representative_id],
+      title:          params[:selected_article][:title],
+      link:           params[:selected_article][:url],
+      description:    params[:selected_article][:description],
+      rating:         params[:ratings][:rating],
+      issue:          session[:selected_issue],
+      representative: @representative
     )
     Rails.logger.info(@news_item)
     if @news_item.save
       NewsItem.all.each do |news|
-        Rails.logger.info("PRINTING NEW NEWS ARTICLE")
+        Rails.logger.info('PRINTING NEW NEWS ARTICLE')
         Rails.logger.info(news)
         Rails.logger.info(news.title)
         Rails.logger.info(news.link)
@@ -158,7 +157,6 @@ class MyNewsItemsController < SessionController
   #   # Render the view with the article details and the form for saving
   # end
 
-  
   private
 
   def set_representative
@@ -184,11 +182,10 @@ class MyNewsItemsController < SessionController
 
   # Only allow a list of trusted parameters through.
   def news_item_params
-    params.require(:news_item).permit(:title, :description, :link, :representative_id, :issue, :rating) #added issue
+    params.require(:news_item).permit(:title, :description, :link, :representative_id, :issue, :rating) # added issue
   end
 
   def selected_article_params
-    params.require(:selected_article).permit(:title, :description, :link, :representative_id, :issue, :rating) #added issue
+    params.require(:selected_article).permit(:title, :description, :link, :representative_id, :issue, :rating) # added issue
   end
-
 end

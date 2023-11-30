@@ -4,12 +4,12 @@ class NewsItem < ApplicationRecord
   belongs_to :representative
   has_many :ratings, dependent: :delete_all
 
-  def self.create_news_item(title, link, desc, rep_id)
+  def self.create_news_item(title, link, desc, _rep_id)
     data = {
-      title: title,
-      link: link,
+      title:       title,
+      link:        link,
       description: desc
-      
+
     }
     NewsItem.find_or_create_by(data)
   end
