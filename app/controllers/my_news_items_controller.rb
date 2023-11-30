@@ -121,15 +121,14 @@ class MyNewsItemsController < SessionController
     Rails.logger.info(session[:selected_rep])
     Rails.logger.info(session[:selected_issue])
     Rails.logger.info(@representative)
-    # @news_item = NewsItem.new(news_item_params)
     @news_item = NewsItem.new(
-      representative_id: params[:representative_id],
+      #representative_id: params[:representative_id],
       title: params[:selected_article][:title],
       link: params[:selected_article][:url],
       description: params[:selected_article][:description],
       rating: params[:ratings][:rating],
       issue: session[:selected_issue],
-      representative: session[:selected_rep]
+      representative: @representative 
     )
     Rails.logger.info(@news_item)
     if @news_item.save
@@ -185,11 +184,11 @@ class MyNewsItemsController < SessionController
 
   # Only allow a list of trusted parameters through.
   def news_item_params
-    params.require(:news_item).permit(:title, :description, :link, :representative_id, :rating)
+    params.require(:news_item).permit(:title, :description, :link, :representative_id, :issue, :rating) #added issue
   end
 
   def selected_article_params
-    params.require(:selected_article).permit(:title, :description, :link, :representative_id, :rating)
+    params.require(:selected_article).permit(:title, :description, :link, :representative_id, :issue, :rating) #added issue
   end
 
 end
