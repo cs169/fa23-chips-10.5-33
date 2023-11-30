@@ -110,7 +110,6 @@ class MyNewsItemsController < SessionController
     Rails.logger.info(@top_articles)
     @top_articles.each do |article|
       Rails.logger.info(article)
-      # Rails.logger.info(JSON.parse(article))
       Rails.logger.info(article.instance_variable_get(:@title))
     end
   end
@@ -130,6 +129,7 @@ class MyNewsItemsController < SessionController
       }
     )
     new_rating = Rating.new(user: @user, news_item: @news_item, value: params[:ratings][:rating])
+    # check if this accurately combines current user, current news item, and value
     #@news_item.add_rating(params[:ratings][:rating])
 
     #@news_item.ratings.new(params[:ratings][:rating])
