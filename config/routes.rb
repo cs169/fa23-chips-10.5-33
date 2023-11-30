@@ -27,16 +27,35 @@ Rails.application.routes.draw do
     resources :representatives, only: [:index]
     resources :representatives do
         resources :news_items, only: %i[index show]
+        # get '/representatives/:representative_id/my_news_item/new' => 'my_news_items#select_rep_issue', 
+        #                                                            => :select_rep_issue
         get '/representatives/:representative_id/my_news_item/new' => 'my_news_items#new',
-            :as                                                    => :new_my_news_item
-        match '/representatives/:representative_id/my_news_item/new', to:  'my_news_items#create',
-                                                                      via: [:post]
-        get '/representatives/:representative_id/my_news_item/:id' => 'my_news_items#edit',
-            :as                                                    => :edit_my_news_item
-        match '/representatives/:representative_id/my_news_item/:id', to:  'my_news_items#update',
-                                                                      via: %i[put patch]
-        match '/representatives/:representative_id/my_news_item/:id', to:  'my_news_items#destroy',
-                                                                      via: [:delete]
+            :as                                                        => :new
+        # get '/representatives/:representative_id/my_news_item/new/search' => 'my_news_items#search',
+        #     :as                                                        => :search
+        post '/representatives/:representative_id/my_news_item/new' => 'my_news_items#search',
+        :as                                                        => :search
+        get '/representatives/:representative_id/my_news_item/new/top_articles' => 'my_news_items#top_articles',
+            :as                                                        => :top_articles
+        post '/representatives/:representative_id/my_news_item/new/top_articles' => 'my_news_items#rate_article',
+            :as                                                        => :rate_article
+        # post '/representatives/:representative_id/my_news_item', to: 'my_news_items#create'
+    
+        # get 'my_news_item/new', to: 'my_news_items#select_rep_issue', as: :select_rep_issue
+        # get 'my_news_item/new/top_articles', to: 'my_news_items#top_articles', as: :top_articles
+        # get 'my_news_item/new/continue', to: 'my_news_items#new_rep_issue', as: :new_rep_issue
+        # post 'my_news_item', to: 'my_news_items#create'
+  
+        # get '/representatives/:representative_id/my_news_item/new' => 'my_news_items#new',
+        #     :as                                                    => :new_my_news_item
+        # match '/representatives/:representative_id/my_news_item/new', to:  'my_news_items#create',
+        #                                                               via: [:post]
+        # get '/representatives/:representative_id/my_news_item/:id' => 'my_news_items#edit',
+        #     :as                                                    => :edit_my_news_item
+        # match '/representatives/:representative_id/my_news_item/:id', to:  'my_news_items#update',
+        #                                                               via: %i[put patch]
+        # match '/representatives/:representative_id/my_news_item/:id', to:  'my_news_items#destroy',
+        #                                                               via: [:delete]
     end
     get '/search/(:address)' => 'search#search', :as => 'search_representatives'
 end
