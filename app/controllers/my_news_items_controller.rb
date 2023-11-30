@@ -120,15 +120,22 @@ class MyNewsItemsController < SessionController
     Rails.logger.info(session[:selected_rep])
     Rails.logger.info(session[:selected_issue])
     Rails.logger.info(@representative)
-    @news_item = NewsItem.new(
-      # representative_id: params[:representative_id],
-      title:          params[:selected_article][:title],
-      link:           params[:selected_article][:url],
-      description:    params[:selected_article][:description],
-      rating:         params[:ratings][:rating],
-      issue:          session[:selected_issue],
-      representative: @representative
+    @news_item = NewsItem.find_or_create_by(
+      {
+        title:          params[:selected_article][:title],
+        link:           params[:selected_article][:url],
+        description:    params[:selected_article][:description],
+        issue:          session[:selected_issue],
+        representative: @representative
+      }
     )
+    new_rating = Rating.new(user: current_user, news_item: news_item)
+    new_rating.value = params[:ratings][:rating]
+    #@news_item.add_rating(params[:ratings][:rating])
+
+    #@news_item.ratings.new(params[:ratings][:rating])
+    #@user.ratings =  @news_item.ratings.new(params[:ratings][:rating])
+
     Rails.logger.info(@news_item)
     if @news_item.save
       NewsItem.all.each do |news|
@@ -182,10 +189,10 @@ class MyNewsItemsController < SessionController
 
   # Only allow a list of trusted parameters through.
   def news_item_params
-    params.require(:news_item).permit(:title, :description, :link, :representative_id, :issue, :rating) # added issue
+    params.require(:news_item).permit(:title, :description, :link, :representative_id, :rating) # added issue
   end
 
   def selected_article_params
-    params.require(:selected_article).permit(:title, :description, :link, :representative_id, :issue, :rating) # added issue
+    params.require(:selected_article).permit(:title, :description, :link, :representative_id, :rating) # added issue
   end
 end

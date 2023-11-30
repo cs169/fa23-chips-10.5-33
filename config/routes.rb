@@ -50,12 +50,12 @@ Rails.application.routes.draw do
         #     :as                                                    => :new_my_news_item #v3
         #match '/representatives/:representative_id/my_news_item/new', to:  'my_news_items#create',
         #                                                              via: [:post] #v3
-        # get '/representatives/:representative_id/my_news_item/:id' => 'my_news_items#edit',
-        #     :as                                                    => :edit_my_news_item #v2
+        get '/representatives/:representative_id/my_news_item/:id' => 'my_news_items#edit',
+            :as                                                    => :edit_my_news_item #v2
         # match '/representatives/:representative_id/my_news_item/:id', to:  'my_news_items#update',
         #                                                               via: %i[put patch] #v3
-        # match '/representatives/:representative_id/my_news_item/:id', to:  'my_news_items#destroy',
-        #                                                               via: [:delete] #v2
+        match '/representatives/:representative_id/my_news_item/:id', to:  'my_news_items#destroy',
+                                                                      via: [:delete] #v2
     end
     get '/search/(:address)' => 'search#search', :as => 'search_representatives'
 end
