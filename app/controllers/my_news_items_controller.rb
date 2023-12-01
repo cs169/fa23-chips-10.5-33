@@ -125,28 +125,32 @@ class MyNewsItemsController < SessionController
         link:           params[:selected_article][:url],
         description:    params[:selected_article][:description],
         issue:          session[:selected_issue],
-        representative: @representative
+        representative_id: @representative.id
       }
     )
-    new_rating = Rating.new(user: @user, news_item: @news_item, value: params[:ratings][:rating])
-    # check if this accurately combines current user, current news item, and value
-    #@news_item.add_rating(params[:ratings][:rating])
+    new_rating = Rating.create(user: @current_user, news_item: @news_item, value: params[:ratings][:rating])
+    #new_rating = Rating.create(user: User.find(session[:user_id]), news_item: @news_item, value: params[:ratings][:rating])
+    Rails.logger.info(new_rating.errors.full_messages) #user not detected
+    @news_item.update_average()
+    #@news_item.add_rating(new_rating)
 
-    #@news_item.ratings.new(params[:ratings][:rating])
-    #@user.ratings =  @news_item.ratings.new(params[:ratings][:rating])
-
-    Rails.logger.info(@news_item)
     if @news_item.save
-      NewsItem.all.each do |news|
-        Rails.logger.info('PRINTING NEW NEWS ARTICLE')
-        Rails.logger.info(news)
-        Rails.logger.info(news.title)
-        Rails.logger.info(news.link)
-        Rails.logger.info(news.description)
-        Rails.logger.info(news.rating)
-        Rails.logger.info(news.representative_id)
-        Rails.logger.info(news.created_at)
-      end
+      #NewsItem.all.each do |news|
+        #Rails.logger.info('PRINTING NEW NEWS ARTICLE')
+        #Rails.logger.info(news)
+        #Rails.logger.info(news.title)
+        #Rails.logger.info(news.link)
+        #Rails.logger.info(news.description)
+        #Rails.logger.info(news.rating)
+        #Rails.logger.info(news.representative_id)
+        #Rails.logger.info(news.created_at)
+      #end
+      Rails.logger.info('PRINTING NEW NEWS ARTICLE')
+      Rails.logger.info(new_rating.value)
+      Rails.logger.info(new_rating.user)
+      Rails.logger.info(new_rating.news_item.title)
+      Rails.logger.info(@news_item.ratings)
+      Rails.logger.info(@news_item.average)
       redirect_to representative_news_items_path(@representative)
     else
       render :new, error: 'An error occurred when creating the news item.'
@@ -188,10 +192,10 @@ class MyNewsItemsController < SessionController
 
   # Only allow a list of trusted parameters through.
   def news_item_params
-    params.require(:news_item).permit(:title, :description, :link, :representative_id, :rating) # added issue
+    params.require(:news_item).permit(:title, :description, :link, :representative_id, :issue) # added issue
   end
 
   def selected_article_params
-    params.require(:selected_article).permit(:title, :description, :link, :representative_id, :rating) # added issue
+    params.require(:selected_article).permit(:title, :description, :link, :representative_id, :issue) # added issue
   end
 end

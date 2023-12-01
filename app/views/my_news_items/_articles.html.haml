@@ -5,9 +5,11 @@
                 = label_tag "article_#{article.instance_variable_get(:@id)}", class: 'article-radio' do
                     = radio_button_tag 'selected_article[article_id]', article.instance_variable_get(:@id), id: "article_#{article.instance_variable_get(:@id)}"
                     = hidden_field_tag "selected_article[title]", article.instance_variable_get(:@title)
+                    = hidden_field_tag "selected_article[average]", article.instance_variable_get(:@average)
                     = hidden_field_tag "selected_article[url]", article.instance_variable_get(:@url)
                     = hidden_field_tag "selected_article[description]", article.instance_variable_get(:@description)
                 %strong= " Title: #{article.instance_variable_get(:@title)}"
+                %p= "Average Rating: #{article.instance_variable_get(:@average) || 'N/A'}"
                 %a{ href: article.instance_variable_get(:@url), style: "display: block;" } Link
                 %p= "Description: #{article.instance_variable_get(:@description)}"
     .form-group.row

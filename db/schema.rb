@@ -41,7 +41,7 @@ ActiveRecord::Schema.define(version: 2023_11_30_204303) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "issue"
-    t.integer "rating"
+    t.float "average"
     t.index ["representative_id"], name: "index_news_items_on_representative_id"
   end
 
