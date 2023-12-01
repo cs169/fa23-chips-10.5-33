@@ -7,6 +7,8 @@ class User < ApplicationRecord
   # Each (uid, provider) pair should be unique.
   validates :uid, uniqueness: { scope: :provider }
 
+  has_many :ratings, dependent: :delete_all
+
   def name
     "#{first_name} #{last_name}"
   end
