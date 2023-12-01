@@ -71,17 +71,11 @@ class MyNewsItemsController < SessionController
   # end
 
   def search
-    Rails.logger.info('in search')
-    Rails.logger.info(params)
-    Rails.logger.info(params[:news_item])
-    Rails.logger.info(@representative)
-    Rails.logger.info(@issues_list)
     @news_item = NewsItem.new(news_item_params)
     if params[:news_item].present? && params[:news_item][:representative_id].present? &&
        params[:news_item][:issue].present?
       session[:selected_representative_id] = params[:news_item][:representative_id]
       session[:selected_issue] = params[:news_item][:issue]
-      Rails.logger.info('in search if statement, about to redirect')
 
       redirect_to representative_top_articles_path(
         @representative,
@@ -94,7 +88,6 @@ class MyNewsItemsController < SessionController
   end
 
   def top_articles
-    Rails.logger.info('in top articles')
     @selected_representative = @representative
     @selected_issue = params[:issue]
     session[:selected_rep] = @selected_representative
@@ -121,53 +114,22 @@ class MyNewsItemsController < SessionController
     Rails.logger.info(@representative)
     @news_item = NewsItem.find_or_create_by(
       {
-        title:          params[:selected_article][:title],
-        link:           params[:selected_article][:url],
-        description:    params[:selected_article][:description],
-        issue:          session[:selected_issue],
+        title:             params[:selected_article][:title],
+        link:              params[:selected_article][:url],
+        description:       params[:selected_article][:description],
+        issue:             session[:selected_issue],
         representative_id: @representative.id
       }
     )
     new_rating = Rating.create(user: @current_user, news_item: @news_item, value: params[:ratings][:rating])
-    #new_rating = Rating.create(user: User.find(session[:user_id]), news_item: @news_item, value: params[:ratings][:rating])
-    Rails.logger.info(new_rating.errors.full_messages) #user not detected
-    @news_item.update_average()
-    #@news_item.add_rating(new_rating)
+    @news_item.update_average
 
     if @news_item.save
-      #NewsItem.all.each do |news|
-        #Rails.logger.info('PRINTING NEW NEWS ARTICLE')
-        #Rails.logger.info(news)
-        #Rails.logger.info(news.title)
-        #Rails.logger.info(news.link)
-        #Rails.logger.info(news.description)
-        #Rails.logger.info(news.rating)
-        #Rails.logger.info(news.representative_id)
-        #Rails.logger.info(news.created_at)
-      #end
-      Rails.logger.info('PRINTING NEW NEWS ARTICLE')
-      Rails.logger.info(new_rating.value)
-      Rails.logger.info(new_rating.user)
-      Rails.logger.info(new_rating.news_item.title)
-      Rails.logger.info(@news_item.ratings)
-      Rails.logger.info(@news_item.average)
       redirect_to representative_news_items_path(@representative)
     else
       render :new, error: 'An error occurred when creating the news item.'
     end
   end
-
-  # def new_rep_issue
-  #   @selected_representative_id = session[:selected_representative_id]
-  #   @selected_issue = session[:selected_issue]
-  #   @selected_article = params[:news_item][:selected_article] # Update this with the actual parameter name
-
-  #   # Additional logic to fetch details of the selected article (replace this with your actual logic)
-
-  #   # Render the view with the article details and the form for saving
-  # end
-
-  private
 
   def set_representative
     @representative = Representative.find(
