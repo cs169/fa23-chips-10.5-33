@@ -7,15 +7,12 @@ class MyNewsItemsController < SessionController
   before_action :set_news_item, only: %i[edit update destroy]
 
   def new
-    Rails.logger.info('in new')
     @news_item = NewsItem.new
-    Rails.logger.info('in new, after making news item')
   end
 
   def edit; end
 
   def create
-    Rails.logger.info('in create')
     @news_item = NewsItem.new(news_item_params)
     if @news_item.save
       redirect_to representative_news_item_path(@representative, @news_item),
@@ -100,28 +97,20 @@ class MyNewsItemsController < SessionController
                                            sortBy:   'relevancy',
                                            page:     1,
                                            pagesize: 5)
-    Rails.logger.info(@top_articles)
-    @top_articles.each do |article|
-      Rails.logger.info(article)
-      Rails.logger.info(article.instance_variable_get(:@title))
-    end
   end
 
   def rate_article
-    Rails.logger.info('in rate article (new!)')
-    Rails.logger.info(session[:selected_rep])
-    Rails.logger.info(session[:selected_issue])
-    Rails.logger.info(@representative)
+    @id = params[:selected_article][:article_id]
     @news_item = NewsItem.find_or_create_by(
       {
-        title:             params[:selected_article][:title],
-        link:              params[:selected_article][:url],
-        description:       params[:selected_article][:description],
+        title:             params[:selected_article][:title][@id],
+        link:              params[:selected_article][:url][@id],
+        description:       params[:selected_article][:description][@id],
         issue:             session[:selected_issue],
         representative_id: @representative.id
       }
     )
-    new_rating = Rating.create(user: @current_user, news_item: @news_item, value: params[:ratings][:rating])
+    Rating.create(user: @current_user, news_item: @news_item, value: params[:ratings][:rating])
     @news_item.update_average
 
     if @news_item.save
