@@ -5,7 +5,7 @@
     .col-12.col-md-6.offset-md-3.col-xl-4.offset-xl-4
         %br
         = form_tag representative_rate_article_path, method: :post, id: 'rate_article' do
-            = render 'articles', top_articles: @top_articles,
+            = render 'articles', top_articles: @top_articles, rating_list: @rating_list,
             form_url: representative_rate_article_path(@representative),
             form_method: :post,
             rating_list: @rating_list

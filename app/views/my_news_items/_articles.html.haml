@@ -1,22 +1,23 @@
 = form_tag form_url, html: { method: form_method } do
-    %ul(style="list-style-type: none;")
+    %ul
         - top_articles.each_with_index do |article, index|
-            %li(style="margin-bottom: 30px;")
+            %li
                 = label_tag "article_#{index}", class: 'article-radio' do
                     = radio_button_tag 'selected_article[article_id]', index
                     = hidden_field_tag "selected_article[title][#{index}]", article.instance_variable_get(:@title)
                     = hidden_field_tag "selected_article[average][#{index}]", article.instance_variable_get(:@average)
                     = hidden_field_tag "selected_article[url][#{index}]", article.instance_variable_get(:@url)
-                    = hidden_field_tag "selected_article[description][#{index}]", article.instance_variable_get(:@description)
-                %strong= " Title: #{article.instance_variable_get(:@title)}"
-                %p= "Average Rating: #{article.instance_variable_get(:@average) || 'N/A'}"
-                %a{ href: article.instance_variable_get(:@url), style: 'display: block;' } Link
-                %p= "Description: #{article.instance_variable_get(:@description)}"
+                    = hidden_field_tag "selected_article[description][#{index}]",
+                    article.instance_variable_get(:@description)
+                %strong Title: #{article.instance_variable_get(:@title)}
+                %p Average Rating: #{article.instance_variable_get(:@average) || 'N/A'}
+                %a{ href: article.instance_variable_get(:@url) } Link
+                %p Description: #{article.instance_variable_get(:@description)}
     .form-group.row
         .col-sm-2
             = label :ratings, :rating, class: 'col-form-label'
         .col-sm-10
-            = select :ratings, :rating, @rating_list, { include_blank: true },
+            = select :ratings, :rating, rating_list, { include_blank: true },
             class: 'form-control', required: true
 
     = submit_tag 'Save'
