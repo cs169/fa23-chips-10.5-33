@@ -1,0 +1,11 @@
+.list-spacer {
+  margin-bottom: 30px;
+}
+
+.checklist{ 
+  style: 'list-style-type: none;' 
+}
+
+.link-display {
+  display: block;
+}

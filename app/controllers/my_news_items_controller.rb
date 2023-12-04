@@ -37,43 +37,11 @@ class MyNewsItemsController < SessionController
                 notice: 'News was successfully destroyed.'
   end
 
-  # def select_rep_issue
-  #   if params[:news_item][:representative_id].present? && params[:news_item][:issue].present?
-  #     session[:selected_representative_id] = params[:news_item][:representative_id]
-  #     session[:selected_issue] = params[:news_item][:issue]
-
-  #     redirect_to new_rep_issue_my_news_item_path
-  #   else
-  #     render 'select_rep_and_issue'
-  #   end
-  # end
-
-  # def select_rep_issue
-  #   Rails.logger.info(params)
-  #   Rails.logger.info(params[:news_item])
-  #   Rails.logger.info(@representative)
-  #   Rails.logger.info(@issues_list)
-  #   if params[:news_item].present?
-  #     session[:selected_representative_id] = params[:news_item][:representative_id]
-  #     session[:selected_issue] = params[:news_item][:issue]
-
-  #     redirect_to representative_top_articles_my_news_item_path(
-  #       @representative,
-  #       representative_id: session[:selected_representative_id],
-  #       issue: session[:selected_issue]
-  #     )
-  #   else
-  #     render :select_rep_issue
-  #   end
-  # end
-
   def search
     @news_item = NewsItem.new(news_item_params)
     if params[:news_item].present? && params[:news_item][:representative_id].present? &&
        params[:news_item][:issue].present?
-      session[:selected_representative_id] = params[:news_item][:representative_id]
-      session[:selected_issue] = params[:news_item][:issue]
-
+      set_rep_and_issue
       redirect_to representative_top_articles_path(
         @representative,
         representative_id: session[:selected_representative_id],
@@ -82,6 +50,11 @@ class MyNewsItemsController < SessionController
     else
       render :new, error: 'An error occurred when creating the news item.'
     end
+  end
+
+  def set_rep_and_issue
+    session[:selected_representative_id] = params[:news_item][:representative_id]
+    session[:selected_issue] = params[:news_item][:issue]
   end
 
   def top_articles
@@ -144,9 +117,5 @@ class MyNewsItemsController < SessionController
   # Only allow a list of trusted parameters through.
   def news_item_params
     params.require(:news_item).permit(:title, :description, :link, :representative_id, :issue) # added issue
-  end
-
-  def selected_article_params
-    params.require(:selected_article).permit(:title, :description, :link, :representative_id, :issue) # added issue
   end
 end
