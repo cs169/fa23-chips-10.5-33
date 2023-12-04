@@ -10,16 +10,12 @@ class NewsItem < ApplicationRecord
     )
   end
 
-  def save_rating(rating)
-    ratings << rating
-    update_average
-  end
-
   def update_average
     total = 0
     ratings.each do |rating|
       total += rating.value
     end
-    self[:average] = total / ratings.length # to_f
+    avg = total / ratings.length
+    self[:average] = avg.round(1)
   end
 end
